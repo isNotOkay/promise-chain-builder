@@ -1,0 +1,19 @@
+{
+  "name": "chipscola",
+  "version": "1.0.0",
+  "description": "a falafel library",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OdenthalKay/chipscola.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/OdenthalKay/chipscola/issues"
+  },
+  "homepage": "https://github.com/OdenthalKay/chipscola#readme"
+}
