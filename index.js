@@ -1,29 +1,39 @@
-var fs = require('fs');
-var thenify = require('thenify');
-fs.writeFile = thenify(fs.writeFile);
-fs.readFile = thenify(fs.readFile);
+module.exports = PromiseChainBuilder;
 
-exports.PromiseChainBuilder = PromiseChainBuilder;
-
-function PromiseChainBuilder(nameOfFirstFunction) {
-    this.source = nameOfFirstFunction;
-}
+function PromiseChainBuilder(firstFunctionName) {
+    this.firstFunctionName = firstFunctionName;
+    this.functions = [];
+};
 
 PromiseChainBuilder.prototype = (function () {
+
+    function build(firstFunctionName, functions) {
+        var source = firstFunctionName;
+        for (var i = 0; i < functions.length; i++) {
+            source += '.then(' + functions[i] + ')';
+        }
+        source += ';';
+        return source;
+    }
+
     function push(func) {
-        // remove closing bracket ');' from end of chain
-        this.source = this.source.slice(0, this.source - 2);
-        this.source += func;
-        this.source += ');';
+        this.functions.push(func);
         return this;
     }
 
-    function cut() {
-   
+    function cut(numSegments) {
+        if ((this.size() - numSegments) < 2) throw new Error('Cannot cut ' + numSegments + ' segments. Promise Chains must consist of at least two functions.');
+        this.functions = this.functions.slice(0, this.functions.length - numSegments);
+        return this;
     }
 
     function size() {
-        return (source.match(/\.then\(\.*\)/g) || []).length;
+        // plus one for function at the beginning of the chain
+        return this.functions.length + 1;
+    }
+
+    function source() {
+        return build(this.firstFunctionName, this.functions);
     }
 
 
@@ -31,27 +41,12 @@ PromiseChainBuilder.prototype = (function () {
     return {
         push: push,
         cut: cut,
-        size: size
+        size: size,
+        source: source
     }
 })();
 
 
-
-
-
-
-var src1 = 'a.then();';
-var src2 = 'a.then().then();';
-var src3 = 'a.then().then().then();';
-var src4 = 'a().then();';
-var nodes = [];
-
-
-fs.readFile('../templates/promise_chain.js').then(function (res) {
-    return fs.writeFile('../templates/output', 'lalfdfala', 'UTF-8');
-}).then(function () {
-    console.log('lala');
-});
 
 
 
