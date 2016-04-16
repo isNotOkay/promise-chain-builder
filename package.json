@@ -1,0 +1,25 @@
+{
+  "name": "chipscola",
+  "version": "1.0.0",
+  "description": "a falafel library",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OdenthalKay/chipscola.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/OdenthalKay/chipscola/issues"
+  },
+  "homepage": "https://github.com/OdenthalKay/chipscola#readme",
+  "dependencies": {
+    "any-promise": "^1.1.0",
+    "chai": "^3.5.0",
+    "falafel": "^1.2.0",
+    "fs-promise": "^0.5.0"
+  }
+}
