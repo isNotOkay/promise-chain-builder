@@ -1,6 +1,7 @@
 module.exports = PromiseChainBuilder;
 
 function PromiseChainBuilder(firstFunctionName) {
+    if (!firstFunctionName) throw new Error('Cannot build promise chain without specifying name of first function');
     this.firstFunctionName = firstFunctionName;
     this.functions = [];
 };

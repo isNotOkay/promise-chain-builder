@@ -1,27 +1,61 @@
-var fs = require('fs');
-var thenify = require('thenify');
-fs.writeFile = thenify(fs.writeFile);
-fs.readFile = thenify(fs.readFile);
+var expect = require('chai').expect;
+var PromiseChainBuilder = require('../index');
 
+/*
+ Example Functions to be chained
+ */
 
-function b() {
-    console.log('lala');
+function a(res) {
+
+}
+function b(res) {
+
+}
+function c(res) {
+
 }
 
-function c() {
-    console.log('lolo');
-}
-function d() {
-    console.log('lili');
-}
+describe('Promise Chain', function () {
+    var promiseChainBuilder;
 
-var PromiseChainBuilder = require('../index.js');
-console.log(PromiseChainBuilder.toString());
+    beforeEach(function () {
+        promiseChainBuilder = new PromiseChainBuilder('a');
+    });
 
-var promiseChain = new PromiseChainBuilder('a');
 
-promiseChain.push(b).push(c).push(d);
-promiseChain.cut(3);
-console.log(promiseChain.source());
+    it('should have length of 1', function () {
+        expect(promiseChainBuilder.size()).to.equal(1);
+    });
 
-console.log(promiseChain.functions);
+    it('should have length of 2', function () {
+        promiseChainBuilder.push(b);
+        expect(promiseChainBuilder.size()).to.equal(2);
+    });
+
+    it('should have length of 3', function () {
+        promiseChainBuilder.push(b).push(c);
+        expect(promiseChainBuilder.size()).to.equal(3);
+    });
+
+
+    it('should have length of 2', function () {
+        promiseChainBuilder.push(b).push(c).cut(1);
+        expect(promiseChainBuilder.size()).to.equal(2);
+    });
+
+    it('should throw an error indicating that chains must consist of at least two functions', function () {
+        function cuttingTooManySegments() {
+            promiseChainBuilder.push(b).cut(1);
+        }
+
+        expect(cuttingTooManySegments).to.throw();
+    });
+
+    it('should throw an error indicating that the name of the first function is needed to initialize the builder', function () {
+        function emptyConstructorFunction() {
+            PromiseChainBuilder();
+        }
+
+        expect(emptyConstructorFunction).to.throw();
+    });
+});
