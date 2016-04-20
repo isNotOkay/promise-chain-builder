@@ -22,6 +22,10 @@ describe('Promise Chain', function () {
         promiseChainBuilder = new PromiseChainBuilder('a');
     });
 
+    it('should produce correct source code for chain consisting of functions a and b', function () {
+        promiseChainBuilder.push(b);
+        expect(promiseChainBuilder.source()).to.match(/a\.then\(function b\(res\) {[\S\s]*?}\);/);
+    });
 
     it('should have length of 1', function () {
         expect(promiseChainBuilder.size()).to.equal(1);
