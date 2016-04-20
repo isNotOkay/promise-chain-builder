@@ -12,7 +12,7 @@ function b(res) {
 
 }
 function c(res) {
-
+    
 }
 
 describe('Promise Chain', function () {
@@ -22,9 +22,14 @@ describe('Promise Chain', function () {
         promiseChainBuilder = new PromiseChainBuilder('a');
     });
 
+    it('should produce correct source code for chain consisting of functions a, b and c', function () {
+        promiseChainBuilder.push(b).push(c);
+        expect(promiseChainBuilder.source()).to.match(/a\.then\(function b\(res\) {[\s]*?}\).then\(function c\(res\) {[\s]*?}\);/);
+    });
+
     it('should produce correct source code for chain consisting of functions a and b', function () {
         promiseChainBuilder.push(b);
-        expect(promiseChainBuilder.source()).to.match(/a\.then\(function b\(res\) {[\S\s]*?}\);/);
+        expect(promiseChainBuilder.source()).to.match(/a\.then\(function b\(res\) {[\s]*?}\);/);
     });
 
     it('should have length of 1', function () {
