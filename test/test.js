@@ -44,6 +44,7 @@ describe('Promise Chain', function() {
 
     it('should have length of 2', function() {
         promiseChainBuilder.push(b);
+        console.log(promiseChainBuilder.source());
         expect(promiseChainBuilder.size()).to.equal(2);
     });
 
