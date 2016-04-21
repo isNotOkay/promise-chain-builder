@@ -24,21 +24,18 @@ describe('Promise Chain', function() {
         promiseChainBuilder = new PromiseChainBuilder([a]);
     });
 
-    it('should produce correct source code for chain consisting of functions a and b after c has been previously cut', function() {
-        promiseChainBuilder.push(b).push(c);
-        expect(promiseChainBuilder.source()).to.match(/a\.then\(function b\(res\) {[\s]*?}\).then\(function c\(res\) {[\s]*?}\);/);
-        promiseChainBuilder.cut(1);
-        expect(promiseChainBuilder.source()).to.match(/a\.then\(function b\(res\) {[\s]*?}\);/);
+    it('should throw an error indicating that the parameter is not an array or empty', function() {
+        function emptyConstructorFunction() {
+            PromiseChainBuilder();
+        }
+        expect(emptyConstructorFunction).to.throw();
     });
 
-    it('should produce correct source code for chain consisting of functions a, b and c', function() {
-        promiseChainBuilder.push(b).push(c);
-        expect(promiseChainBuilder.source()).to.match(/a\.then\(function b\(res\) {[\s]*?}\).then\(function c\(res\) {[\s]*?}\);/);
-    });
-
-    it('should produce correct source code for chain consisting of functions a and b', function() {
-        promiseChainBuilder.push(b);
-        expect(promiseChainBuilder.source()).to.match(/a\.then\(function b\(res\) {[\s]*?}\);/);
+    it('should throw an error indicating that the parameter is not an array', function() {
+        function emptyConstructorFunction() {
+            PromiseChainBuilder({});
+        }
+        expect(emptyConstructorFunction).to.throw();
     });
 
     it('should have length of 1', function() {
@@ -61,25 +58,32 @@ describe('Promise Chain', function() {
         expect(promiseChainBuilder.size()).to.equal(2);
     });
 
-    it('should throw an error indicating that chains must consist of at least two functions', function() {
+    it('should produce correct source code for chain consisting of single function a', function() {
+        expect(promiseChainBuilder.source()).to.match(/a\.then\(function\(res\) {[\s]*?}\);/);
+    });
+
+    it('should produce correct source code for chain consisting of functions a and b after c has been previously cut', function() {
+        promiseChainBuilder.push(b).push(c);
+        expect(promiseChainBuilder.source()).to.match(/a\.then\(function b\(res\) {[\s]*?}\).then\(function c\(res\) {[\s]*?}\);/);
+        promiseChainBuilder.cut(1);
+        expect(promiseChainBuilder.source()).to.match(/a\.then\(function b\(res\) {[\s]*?}\);/);
+    });
+
+    it('should produce correct source code for chain consisting of functions a, b and c', function() {
+        promiseChainBuilder.push(b).push(c);
+        expect(promiseChainBuilder.source()).to.match(/a\.then\(function b\(res\) {[\s]*?}\).then\(function c\(res\) {[\s]*?}\);/);
+    });
+
+    it('should produce correct source code for chain consisting of functions a and b', function() {
+        promiseChainBuilder.push(b);
+        expect(promiseChainBuilder.source()).to.match(/a\.then\(function b\(res\) {[\s]*?}\);/);
+    });
+
+    it('should throw an error indicating that chains must consist of at least one function', function() {
         function cuttingTooManySegments() {
-            promiseChainBuilder.push(b).cut(1);
+            promiseChainBuilder.cut(1);
         }
-
+        expect(promiseChainBuilder.size()).to.equal(1);
         expect(cuttingTooManySegments).to.throw();
-    });
-
-    it('should throw an error indicating that the parameter is not an array or empty', function() {
-        function emptyConstructorFunction() {
-            PromiseChainBuilder();
-        }
-        expect(emptyConstructorFunction).to.throw();
-    });
-
-    it('should throw an error indicating that the parameter is not an array', function() {
-        function emptyConstructorFunction() {
-            PromiseChainBuilder({});
-        }
-        expect(emptyConstructorFunction).to.throw();
     });
 });
