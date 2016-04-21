@@ -1,16 +1,20 @@
 module.exports = PromiseChainBuilder;
 
-function PromiseChainBuilder(firstFunctionName) {
-    if (!firstFunctionName) throw new Error('Cannot build promise chain without specifying name of first function');
-    this.firstFunctionName = firstFunctionName;
-    this.functions = [];
+function PromiseChainBuilder(fns) {
+    if (!Array.isArray(fns)) throw new Error('parameter must be an array');
+    if (fns.size < 1) throw new Error('array must contain at least one function');
+    this.functions = fns;
 };
 
-PromiseChainBuilder.prototype = (function () {
+PromiseChainBuilder.prototype = (function() {
 
-    function build(firstFunctionName, functions) {
-        var source = firstFunctionName;
-        for (var i = 0; i < functions.length; i++) {
+    /**
+     * Use name of first function at the beggining of the chain and 
+     * concat all other functions wrapped in a 'then'-Block.
+     * */
+    function build(functions) {
+        var source = functions[0].name;
+        for (var i = 1; i < functions.length; i++) {
             source += '.then(' + functions[i] + ')';
         }
         source += ';';
@@ -30,11 +34,11 @@ PromiseChainBuilder.prototype = (function () {
 
     function size() {
         // plus one for function at the beginning of the chain
-        return this.functions.length + 1;
+        return this.functions.length;
     }
 
     function source() {
-        return build(this.firstFunctionName, this.functions);
+        return build(this.functions);
     }
 
 
@@ -46,21 +50,3 @@ PromiseChainBuilder.prototype = (function () {
         source: source
     }
 })();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
