@@ -6,15 +6,12 @@
   "directories": {
     "test": "test"
   },
-  "dependencies": {
-    "any-promise": "^1.1.0",
-    "chai": "^3.5.0",
-    "mocha": "^2.4.5",
-    "when": "^3.7.7"
+  "dependencies": {},
+  "devDependencies": {
+    "chai": "^3.5.0"
   },
-  "devDependencies": {},
   "scripts": {
-    "test": "./node_modules/.bin/mocha"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
