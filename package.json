@@ -1,6 +1,6 @@
 {
   "name": "promise-chain-builder",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "generates source code for promise chains",
   "main": "index.js",
   "directories": {
