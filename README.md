@@ -4,7 +4,7 @@ Utility to generate source code for promise chains
 ### Usage
 
 ```javascript
-var PromiseChainBuilder = require('PromiseChainBuilder');
+var PromiseChainBuilder = require('promise-chain-builder');
 function a(res) {/* do something */}
 function b(res) {/* do something */}
 
