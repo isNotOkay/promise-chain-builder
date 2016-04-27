@@ -6,14 +6,23 @@ function PromiseChainBuilder(fns) {
     this.functions = fns;
 };
 
-PromiseChainBuilder.prototype = (function() {
+PromiseChainBuilder.prototype = (function () {
 
     /**
-     * Use name of first function at the beggining of the chain and 
+     * Use call signature of first function at the beggining of the chain and
      * concat all other functions wrapped in a 'then'-Block.
      * */
     function build(functions) {
-        var source = functions[0].name;
+        // call signature for first function
+        var source = functions[0].name + '(';
+        for (var i = 0; i < functions[0].length; i++) {
+            source += ('param' + (i + 1) + ',');
+            // remove last comma in call signature
+            if (i === functions[0].length - 1)
+                source = source.slice(0, -1);
+        }
+        source += ')';
+
         // nothing to concat => concat anonymous function
         if (functions.length === 1) {
             source += '.then(function(res) {})';
