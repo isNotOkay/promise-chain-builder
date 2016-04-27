@@ -1,24 +1,32 @@
 # Promise-Chain-Builder
 
 Utility to generate source code for promise chains
-
-### Installation
-
-```sh
-$ npm install && npm run test
-```
-
 ### Usage
 
 ```javascript
+var PromiseChainBuilder = require('promise-chain-builder');
 function a(res) {/* do something */}
 function b(res) {/* do something */}
-var promiseChainBuilder = new PromiseChainBuilder([a]);
+
+var promiseChainBuilder = new PromiseChainBuilder([a,b]);
 console.log(promiseChainBuilder.source());
 ```
-### Output
+#### Output
 ```javascript
 a.then(function b(res) {
 /* do something */
 });
 ```
+
+### API 
+#### promiseBuilder.push(func);
+Appends a function wrapped in a 'then'-block.
+
+#### promiseBuilder.cut(numFunctions);
+Removes functions from end of chain.
+
+#### promiseBuilder.size();
+Returns number of chained functions.
+
+#### promiseBuilder.source();
+Returns generated source code.
