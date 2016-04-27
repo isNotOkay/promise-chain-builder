@@ -13,7 +13,7 @@ console.log(promiseChainBuilder.source());
 ```
 #### Output
 ```javascript
-a.then(function b(res) {
+a(param1).then(function b(res) {
 /* do something */
 });
 ```
