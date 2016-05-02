@@ -6,9 +6,9 @@
   "directories": {
     "test": "test"
   },
-  "dependencies": {},
-  "devDependencies": {
-    "chai": "^3.5.0"
+  "dependencies": {
+    "chai": "^3.5.0",
+    "request-promise": "^3.0.0"
   },
   "scripts": {
     "test": "mocha"
