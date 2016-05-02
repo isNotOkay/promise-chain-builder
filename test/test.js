@@ -62,6 +62,12 @@ describe('Promise Chain', function() {
         expect(promiseChainBuilder.size()).to.equal(2);
     });
 
+    it('should produce correct source code chain with one element and custom catch-Function', function() {
+        var promiseChainBuilder = new PromiseChainBuilder([singleParamFunc]);
+        promiseChainBuilder.setCatch(function customCatchFunc(someError) {});
+        expect(promiseChainBuilder.source()).to.match(/singleParamFunc\(param1\)\.then\(function\(res\) {[\s]*?}\).catch\(function customCatchFunc\(someError\) {[\s]*?}\);/);
+    });
+
     it('should produce correct source code chain with no elements', function() {
         var promiseChainBuilder = new PromiseChainBuilder();
         expect(promiseChainBuilder.source()).to.equal('');
@@ -69,42 +75,42 @@ describe('Promise Chain', function() {
 
     it('should produce correct source code for chain consisting of single function a with no parameters', function() {
         var promiseChainBuilder = new PromiseChainBuilder([noParamFunc]);
-        expect(promiseChainBuilder.source()).to.match(/noParamFunc\(\)\.then\(function\(res\) {[\s]*?}\);/);
+        expect(promiseChainBuilder.source()).to.match(/noParamFunc\(\)\.then\(function\(res\) {[\s]*?}\).catch\(function \(error\) {[\s]*?}\);/);
     });
 
     it('should produce correct source code for chain consisting of single function a with one parameter', function() {
         var promiseChainBuilder = new PromiseChainBuilder([singleParamFunc]);
-        expect(promiseChainBuilder.source()).to.match(/singleParamFunc\(param1\)\.then\(function\(res\) {[\s]*?}\);/);
+        expect(promiseChainBuilder.source()).to.match(/singleParamFunc\(param1\)\.then\(function\(res\) {[\s]*?}\).catch\(function \(error\) {}\);/);
     });
 
     it('should produce correct source code for chain consisting of single function a with three parameters', function() {
         var promiseChainBuilder = new PromiseChainBuilder([trippleParamFunc]);
-        expect(promiseChainBuilder.source()).to.match(/trippleParamFunc\(param1,param2,param3\)\.then\(function\(res\) {[\s]*?}\);/);
+        expect(promiseChainBuilder.source()).to.match(/trippleParamFunc\(param1,param2,param3\)\.then\(function\(res\) {[\s]*?}\).catch\(function \(error\) {}\);/);
     });
 
     it('should produce correct source code for chain consisting of single function a with two parameters', function() {
         var promiseChainBuilder = new PromiseChainBuilder([a]);
-        expect(promiseChainBuilder.source()).to.match(/a\(param1,param2\)\.then\(function\(res\) {[\s]*?}\);/);
+        expect(promiseChainBuilder.source()).to.match(/a\(param1,param2\)\.then\(function\(res\) {[\s]*?}\).catch\(function \(error\) {}\);/);
     });
 
     it('should produce correct source code for chain consisting of functions a and b after c has been previously cut', function() {
         var promiseChainBuilder = new PromiseChainBuilder([a]);
         promiseChainBuilder.push(b).push(c);
-        expect(promiseChainBuilder.source()).to.match(/a\(param1,param2\)\.then\(function b\(res\) {[\s]*?}\).then\(function c\(res\) {[\s]*?}\);/);
+        expect(promiseChainBuilder.source()).to.match(/a\(param1,param2\)\.then\(function b\(res\) {[\s]*?}\).then\(function c\(res\) {[\s]*?}\).catch\(function \(error\) {}\);/);
         promiseChainBuilder.cut(1);
-        expect(promiseChainBuilder.source()).to.match(/a\(param1,param2\)\.then\(function b\(res\) {[\s]*?}\);/);
+        expect(promiseChainBuilder.source()).to.match(/a\(param1,param2\)\.then\(function b\(res\) {[\s]*?}\).catch\(function \(error\) {}\);/);
     });
 
     it('should produce correct source code for chain consisting of functions a, b and c', function() {
         var promiseChainBuilder = new PromiseChainBuilder([a]);
         promiseChainBuilder.push(b).push(c);
-        expect(promiseChainBuilder.source()).to.match(/a\(param1,param2\)\.then\(function b\(res\) {[\s]*?}\).then\(function c\(res\) {[\s]*?}\);/);
+        expect(promiseChainBuilder.source()).to.match(/a\(param1,param2\)\.then\(function b\(res\) {[\s]*?}\).then\(function c\(res\) {[\s]*?}\).catch\(function \(error\) {}\);/);
     });
 
     it('should produce correct source code for chain consisting of functions a and b', function() {
         var promiseChainBuilder = new PromiseChainBuilder([a]);
         promiseChainBuilder.push(b);
-        expect(promiseChainBuilder.source()).to.match(/a\(param1,param2\)\.then\(function b\(res\) {[\s]*?}\);/);
+        expect(promiseChainBuilder.source()).to.match(/a\(param1,param2\)\.then\(function b\(res\) {[\s]*?}\).catch\(function \(error\) {}\);/);
     });
 
     it('should throw an error indicating that chains must consist of at least one function', function() {

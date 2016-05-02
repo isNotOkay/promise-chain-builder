@@ -31,3 +31,4 @@ function deleteEntity(res) {
  **/
 var promiseChainBuilder = new PromiseChainBuilder([createEntity, readEntity, updateEntity, deleteEntity]);
 var generatedSource = promiseChainBuilder.source();
+console.log(generatedSource);
