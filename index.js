@@ -1,9 +1,13 @@
 module.exports = PromiseChainBuilder;
 
 function PromiseChainBuilder(fns) {
-    if (!Array.isArray(fns)) throw new Error('parameter must be an array');
-    if (fns.size < 1) throw new Error('array must contain at least one function');
-    this.functions = fns;
+    if (!fns) {
+        this.functions = [];
+    } else if (Array.isArray(fns)) {
+        this.functions = fns;
+    } else {
+        throw new Error("parameter must be an array");
+    }
 };
 
 PromiseChainBuilder.prototype = (function () {
@@ -13,6 +17,8 @@ PromiseChainBuilder.prototype = (function () {
      * concat all other functions wrapped in a 'then'-Block.
      * */
     function build(functions) {
+        if (functions.length === 0) return '';
+        
         // call signature for first function
         var source = functions[0].name + '(';
         for (var i = 0; i < functions[0].length; i++) {

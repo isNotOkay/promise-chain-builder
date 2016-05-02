@@ -1,6 +1,7 @@
 # Promise-Chain-Builder
 
 Utility to generate source code for promise chains
+
 ### Usage
 
 ```javascript
