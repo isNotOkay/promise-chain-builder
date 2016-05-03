@@ -123,4 +123,22 @@ describe('Promise Chain', function() {
         expect(promiseChainBuilder.size()).to.equal(1);
         expect(cuttingTooManySegments).to.throw();
     });
+
+    it('pushing a object should throw an error indicating that only function-objects can be added to the chain', function() {
+        var promiseChainBuilder = new PromiseChainBuilder();
+
+        function pushObject() {
+            promiseChainBuilder.push({});
+        }
+        expect(pushObject).to.throw();
+    });
+
+    it('passing no argument to push should throw an error indicating that only function-objects can be added to the chain', function() {
+        var promiseChainBuilder = new PromiseChainBuilder();
+
+        function pushObject() {
+            promiseChainBuilder.push();
+        }
+        expect(pushObject).to.throw();
+    });
 });

@@ -1,3 +1,5 @@
+var _ = require('lodash');
+
 module.exports = PromiseChainBuilder;
 
 function PromiseChainBuilder(fns) {
@@ -14,6 +16,7 @@ function PromiseChainBuilder(fns) {
 PromiseChainBuilder.prototype = (function() {
 
     function push(func) {
+        if (!_.isFunction(func)) throw new Error('Either no parameter was specified or parameter is not a function');
         this.functions.push(func);
         return this;
     }

@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "chai": "^3.5.0",
+    "lodash": "^4.11.2",
     "request-promise": "^3.0.0"
   },
   "scripts": {
