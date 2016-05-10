@@ -29,22 +29,10 @@ PromiseChainBuilder.prototype = (function() {
 
     function source() {
         var i;
-
         if (this.functions.length === 0) return '';
 
-        /**
-         * Use call signature of first function at the beggining of the chain and
-         * concat all other functions wrapped in a 'then'-Block.
-         * */
-        var source = this.functions[0].name + '(';
-        for (i = 0; i < this.functions[0].length; i++) {
-            source += ('param' + (i + 1) + ',');
-            // remove last comma in call signature
-            if (i === this.functions[0].length - 1)
-                source = source.slice(0, -1);
-        }
-        source += ')';
-
+        var source = util.extractFunctionSignature(this.functions[0]);
+        
         // nothing to concat => concat anonymous function
         if (this.functions.length === 1) {
             source += '.then(function(res) {})';
