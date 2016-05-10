@@ -22,12 +22,6 @@ PromiseChainBuilder.prototype = (function() {
         return this;
     }
 
-    function cut(numSegments) {
-        if ((this.size() - numSegments) < 1) throw new Error('Cannot cut ' + numSegments + ' segments. Promise Chains must consist of at least one function.');
-        this.functions = this.functions.slice(0, this.functions.length - numSegments);
-        return this;
-    }
-
     function size() {
         // plus one for function at the beginning of the chain
         return this.functions.length;
@@ -74,7 +68,6 @@ PromiseChainBuilder.prototype = (function() {
     // public methods
     return {
         push: push,
-        cut: cut,
         size: size,
         source: source,
         setCatch: setCatch
