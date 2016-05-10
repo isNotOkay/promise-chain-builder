@@ -1,4 +1,5 @@
 var _ = require('lodash');
+var util = require('./util/index.js');
 
 module.exports = PromiseChainBuilder;
 
@@ -6,7 +7,7 @@ function PromiseChainBuilder(fns) {
     // functions to be chained
     this.functions;
     if (!fns) this.functions = [];
-    else if (Array.isArray(fns)) this.functions = fns;
+    else if (Array.isArray(fns) && util.containsOnlyFunctionObjects(fns)) this.functions = fns;
     else throw new Error("parameter must be an array");
 
     // 'catch'-Function at end of chain

@@ -31,11 +31,22 @@ function c(res) {
 
 describe('Promise Chain', function() {
     it('should throw an error indicating that the parameter is not an array', function() {
-        function emptyConstructorFunction() {
+        function invalidContructorFunctionParameter() {
             PromiseChainBuilder({});
         }
 
-        expect(emptyConstructorFunction).to.throw();
+        expect(invalidContructorFunctionParameter).to.throw();
+    });
+
+    it('should throw an error indicating that the array contains objects that are no function-objects', function() {
+        function invalidContructorFunctionParameter() {
+            var arrayWithInvalidObject = [a, b, c, {
+                someObject: 'notAfunction'
+            }];
+            PromiseChainBuilder(arrayWithInvalidObject);
+        }
+
+        expect(invalidContructorFunctionParameter).to.throw();
     });
 
     it('should have length of 1', function() {
