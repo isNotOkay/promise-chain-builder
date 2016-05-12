@@ -6,10 +6,11 @@ Utility to generate source code for promise chains
 
 ```javascript
 /*
- Build dynamic promise chain consisting of GET-requests at runtime and execute code using 'eval'
+ Build dynamic promise chain consisting of
+ GET-requests at runtime and execute code using 'eval'.
  **/
 var request = require('request-promise');
-var PromiseChainBuilder = require('../index');
+var PCB = require('../index');
 
 var options = {
     resolveWithFullResponse: true
@@ -43,9 +44,9 @@ function finish(res) {
 // === functions to be chained ===
 
 // build chain
-var promiseChainBuilder = new PromiseChainBuilder([getGoogle, getWikipedia, getReddit, finish]);
-promiseChainBuilder.setCatch(somethingWentWrong);
-var source = promiseChainBuilder.source();
+var pcb = new PCB([getGoogle, getWikipedia, getReddit, finish]);
+pcb.setCatch(somethingWentWrong);
+var source = pcb.source();
 console.log(source);
 
 // execute chain
