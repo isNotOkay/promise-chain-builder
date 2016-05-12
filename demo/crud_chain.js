@@ -30,5 +30,5 @@ function deleteEntity(res) {
  * Build the actual chain by passing an array containing references to the CRUD-functions above
  **/
 var promiseChainBuilder = new PromiseChainBuilder([createEntity, readEntity, updateEntity, deleteEntity]);
-var generatedSource = promiseChainBuilder.source();
+var generatedSource = promiseChainBuilder.source('crud_chain_output.js');
 console.log(generatedSource);

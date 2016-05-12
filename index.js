@@ -27,12 +27,11 @@ PromiseChainBuilder.prototype = (function() {
         return this.functions.length;
     }
 
-    function source() {
-        var i;
+    function source(fileName) {
+        var source, i;
         if (this.functions.length === 0) return '';
 
-        var source = util.extractFunctionSignature(this.functions[0]);
-        
+        source = util.extractFunctionSignature(this.functions[0]);
         // nothing to concat => concat anonymous function
         if (this.functions.length === 1) {
             source += '.then(function(res) {})';
@@ -42,9 +41,10 @@ PromiseChainBuilder.prototype = (function() {
                 source += '.then(' + this.functions[i] + ')';
             }
         }
-
         // append 'catch'-Function
         source += '.catch(' + this.catchFunc + ');';
+
+        if (fileName) util.writeToFile(fileName, source);
         return source;
     }
 
