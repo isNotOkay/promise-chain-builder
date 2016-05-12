@@ -10,7 +10,7 @@ Utility to generate source code for promise chains
  GET-requests at runtime and execute code using 'eval'.
  **/
 var request = require('request-promise');
-var PCB = require('../index');
+var PCB = require("promise-chain-builder");
 
 var options = {
     resolveWithFullResponse: true
